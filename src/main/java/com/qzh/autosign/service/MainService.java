@@ -71,7 +71,7 @@ public class MainService {
 
     private void sendCoursesRecordMsg(List<SignedCourse> signedCourses) {
         String title = "欢迎使用SignInRobot";
-        StringBuilder content = new StringBuilder();
+        StringBuffer content = new StringBuffer();
         for (int i = 0; i < signedCourses.size(); i++) {
             String course = signedCourses.get(i).getCourseName();
             if (i<signedCourses.size()-1) {

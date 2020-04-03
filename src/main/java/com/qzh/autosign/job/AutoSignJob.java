@@ -8,10 +8,8 @@ import com.qzh.autosign.utils.EmailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.IOException;
 import java.util.Date;
@@ -25,7 +23,7 @@ import java.util.Map;
  * @Description 定时器执行方法类
  **/
 @Slf4j
-public class AutoSignJob implements Job {
+public class AutoSignJob extends QuartzJobBean {
 
     private SignedCourse signedCourse;
     private LoginInfo loginInfo;
@@ -102,9 +100,8 @@ public class AutoSignJob implements Job {
         }
     }
 
-
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         JobDataMap dataMap = jobExecutionContext.getMergedJobDataMap();
         AutoSignJob signJob = new AutoSignJob();
         signJob.setData((SignedCourse) dataMap.get("signCourse"), (LoginInfo) dataMap.get("loginInfo"));
