@@ -20,8 +20,8 @@ import java.util.Properties;
 @Slf4j
 public class EmailUtil {
 
-    private static final String Sender = "***";
-    private static final String SendPwd = "***";
+    private static final String Sender = "qzh1720505246@163.com";
+    private static final String SendPwd = "CHDBMSVMNYNPIJGA";
     private static final String MAIL_SMTP_HOST = "smtp.163.com";
     private static String receiver = getReceiverEmailAddress();
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

@@ -1,7 +1,9 @@
 package com.qzh.autosign.job;
 
+import com.qzh.autosign.entity.ActiveCourse;
 import com.qzh.autosign.entity.LoginInfo;
 import com.qzh.autosign.entity.SignedCourse;
+import com.qzh.autosign.utils.ActiveCourseUtils;
 import com.qzh.autosign.utils.CookieUtil;
 import com.qzh.autosign.utils.DateUtil;
 import com.qzh.autosign.utils.EmailUtil;
@@ -31,11 +33,15 @@ public class AutoSignJob extends QuartzJobBean {
     /**
      * 标志签到是否完成
      */
-    private boolean isNeedSign = false;
+    private  boolean isNeedSign = false;
+
+    private ActiveCourse latestSigned;
+
 
     public void setData(SignedCourse signedCourse, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
         this.signedCourse = signedCourse;
+        this.latestSigned = ActiveCourseUtils.activeCourse;
     }
 
     public String getActiveId(SignedCourse signedCourse, LoginInfo loginInfo) {
@@ -62,6 +68,7 @@ public class AutoSignJob extends QuartzJobBean {
                     isNeedSign = true;
                     log.debug(" 检测到《" + signedCourse.getCourseName() + "》课需要签到");
                 } else {
+                    isNeedSign = false;
                     log.info(" 检测到《" + signedCourse.getCourseName() + "》暂时不需要签到");
                 }
             }
@@ -87,7 +94,8 @@ public class AutoSignJob extends QuartzJobBean {
                     .header("Referer", referer)
                     .get();
             String result = document.select("span.greenColor").text();
-            if ("签到成功".equals(result) && isNeedSign) {
+            if ("签到成功".equals(result) && isNeedSign && !activeId.equals(latestSigned.getActiveCode())) {
+                ActiveCourseUtils.activeCourse = new ActiveCourse(signedCourse, activeId, true);
                 log.info("签到成功：" + signedCourse.getCourseName());
                 sendSignSuccessMsg(signedCourse.getCourseName());
                 isNeedSign = false;

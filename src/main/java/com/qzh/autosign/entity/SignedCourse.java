@@ -2,6 +2,7 @@ package com.qzh.autosign.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName SignedClass
@@ -16,6 +17,7 @@ import lombok.Data;
  **/
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SignedCourse {
     private String courseName;
     private String courseId;
