@@ -17,5 +17,9 @@ import lombok.NoArgsConstructor;
 public class ActiveCourse {
     private SignedCourse signedCourse;
     private String activeCode;
-    private Boolean isActive;
+    private boolean isActive;
+    /**
+     * 签到方式
+     */
+    private String type;
 }
