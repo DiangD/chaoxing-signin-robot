@@ -13,7 +13,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.IOException;
@@ -83,7 +85,7 @@ public class AutoSignJob extends QuartzJobBean {
                         log.debug(" 检测到《" + signedCourse.getCourseName() + "》课需要签到");
                     }
                     if (!"".equals(activeId) && activeId != null) {
-                        activeCourses.add(new ActiveCourse(signedCourse, activeId, false, title));
+                        activeCourses.add(new ActiveCourse(signedCourse, activeId, false, ActiveCourseUtils.getSignType(title)));
                     } else {
                         log.info(" 检测到《" + signedCourse.getCourseName() + "》暂时不需要签到");
                     }
@@ -108,9 +110,9 @@ public class AutoSignJob extends QuartzJobBean {
 
     private Response signByType(ActiveCourse activeCourse) {
         switch (activeCourse.getType()) {
-            case "[签到]":
+            case 0:
                 return normalSign(activeCourse);
-            case "[手势签到]":
+            case 1:
                 return handSign(activeCourse);
             default:
                 break;

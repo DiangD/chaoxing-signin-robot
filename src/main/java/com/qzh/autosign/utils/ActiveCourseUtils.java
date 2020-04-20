@@ -12,4 +12,14 @@ import com.qzh.autosign.entity.ActiveCourse;
 public class ActiveCourseUtils {
 
     public static ActiveCourse activeCourse = new ActiveCourse();
+
+
+    public static int getSignType(String title) {
+        if (title.contains("手势签到")) {
+            return 1;
+        } else {
+            //默认签到模式
+            return 0;
+        }
+    }
 }

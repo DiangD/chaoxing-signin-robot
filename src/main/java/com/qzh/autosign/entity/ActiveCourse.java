@@ -21,5 +21,5 @@ public class ActiveCourse {
     /**
      * 签到方式
      */
-    private String type;
+    private int type;
 }
