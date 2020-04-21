@@ -2,7 +2,6 @@ package com.qzh.autosign;
 
 import com.qzh.autosign.service.MainService;
 import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
